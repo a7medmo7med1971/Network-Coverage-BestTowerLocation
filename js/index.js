@@ -1,6 +1,5 @@
 $(document).ready(function () {
   //// لما الصفحة تحمل اعملي الكود
-
   let map = L.map("map").setView([27.5, 30.5], 7); // القاهرة  [27.5, 30.5]      // 2- إضافة خريطة الأساس (Tile Layer)
   let osm = L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -18,7 +17,6 @@ $(document).ready(function () {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }
   );
-
   //*********************************************************************************************************** */
   let drawFeature = new L.FeatureGroup(); /// عرفته في الاول عشان اعمل اي تحليلات سواء رسم يدوي او geojson
   map.addLayer(drawFeature);
@@ -83,39 +81,7 @@ $(document).ready(function () {
     })
     .addTo(map);
 
-  //*********************************************************************************************************** */
 
-  // // My  location <--///
-  // let btnZoom = document.getElementById('zoomBtn');
-  // let Group;
-
-  // function getPosition(position) {
-  //     let lat = position.coords.latitude; // x
-  //     let long = position.coords.longitude; // Y
-  //     let accuracy = position.coords.accuracy; // buffer in meters
-  //     let markerLocation = L.marker([lat, long]); // mark my location
-  //     let circle = L.circle([lat, long], { radius: accuracy }); //Buffer my location
-
-  //     // console.log(lat, long, accuracy);
-
-  //     markerLocation.bindPopup(`<h3>المساحة العسكرية</h3> <img class="w-100" src="image/المساحة.png"/>`);
-  //     circle.bindPopup(`${accuracy} Meters`);
-
-  //     // عند الضغط على الزر نضيف الـ marker والدائرة إلى الخريطة
-  //     btnZoom.addEventListener('click', function () {
-  //         if (Group) {
-  //             map.flyTo([lat, long], 18, { duration: 1.5 });
-  //         } else {
-  //             // إضافة النقطة إلى الخريطة عند الضغط على الزر
-  //             Group = L.featureGroup([markerLocation, circle]).addTo(map);
-  //         }
-  //     });
-  // }
-  // // استخدام watchPosition لالتقاط الموقع أولاً
-  // navigator.geolocation.watchPosition(getPosition);
-
-  //*********************************************************************************************************** */
-  // leaflet routing plugin  <--///
 
   let points = []; // هنا هنجمع النقطتين اللي هترسميهم
 
@@ -133,29 +99,7 @@ $(document).ready(function () {
     drawFeature.addLayer(layer); // نضيف الطبقة مهما كان نوعها (مش بس ماركر)
   });
 
-  // لما تضغطي على زرار "أفضل مسار"
-  // let bestRouting = document.getElementById("bestRouting");
-  // bestRouting.addEventListener("click", function () {
-  //   if (points.length < 2) {
-  //     alert("من فضلك ارسم نقطتين على الخريطة الأول");
-  //     return;
-  //   }
-
-  //   // نحذف أي مسار قديم قبل ما نرسم الجديد
-  //   if (window.routingControl) {
-  //     map.removeControl(window.routingControl);
-
-  //   }
-
-  //   // نرسم أفضل مسار بين النقطتين
-  //   window.routingControl = L.Routing.control({
-  //     waypoints: points,
-  //     routeWhileDragging: true,
-  //     draggableWaypoints: true,
-  //   }).addTo(map);
-  // });
-  //*********************************************************************************************************** */
-  // Map Scalebar--->
+ 
   L.control
     .scale({
       position: "bottomleft", // مكان المقياس
@@ -190,8 +134,6 @@ $(document).ready(function () {
       alert("tam");
     });
   });
-  //*********************************************************************************************************/
-  //************************************************************************************************* */
   ///*************************************** bulding New Cairo****************   */
   let cairoLayer = L.geoJSON(cairo, {
     style: {
@@ -230,11 +172,8 @@ $(document).ready(function () {
   }).addTo(map);
 
   ///////////////////////////** تحليل نقط الابراج علي المباني ********************/////////////////*/
-  //************************************************************************************************* */
-
   let bufferLayerr;
   let bufferss;
-
   function createBuffer() {
     const radius = parseFloat(document.getElementById("radiusInputt").value); // get El Value mn El input
 
@@ -319,7 +258,6 @@ $(document).ready(function () {
     });
 
   //************************************** Analysis Building  */******************************* */
-  //***************************************** ****************************** ***************************/
   let select = document.getElementById("select");
 
   function checkBuildingCoverage() {
@@ -368,10 +306,7 @@ $(document).ready(function () {
   select.addEventListener("click", function () {
     checkBuildingCoverage();
   });
-
   //*****************************************suggestTower***************************************************** */
-  //********************************************************************************************************** */
-
   // تفعيل الزر
   let suggestTower = document.getElementById("suggestTower");
 
@@ -385,9 +320,7 @@ $(document).ready(function () {
       window._suggestedKmeansLayers.forEach((layer) => map.removeLayer(layer));
     }
     window._suggestedKmeansLayers = [];
-
     let uncovered = [];
-
     cairoLayer.eachLayer((layer) => {
       let isCovered = false;
       for (let i = 0; i < bufferss.features.length; i++) {
@@ -470,7 +403,6 @@ $(document).ready(function () {
 
     alert(`✅ تم اقتراح ${clusters.length} برج لتغطية المناطق غير المغطاة.`);
   }
-
   // ✅ زر التفعيل الديناميكي
   suggestTower.addEventListener("click", function () {
     createBuffer();
@@ -486,7 +418,6 @@ $(document).ready(function () {
 
     suggestKMeansTowers(4, userRadius); // ← استخدم قيمة المستخدم
   });
-
   ////////////////////////////////////////selectBuilding//////////////////////////////////////////////////////////////////
   document
     .getElementById("selectBuilding")
@@ -535,7 +466,6 @@ $(document).ready(function () {
         row.innerHTML = ` المباني المتداخلة في التغطية : <strong style="color:blue">${blueCount}</strong>`;
       }
     });
-
   //***////******************************** downloadData************************************************************** */ */
   document
     .getElementById("downloadData")
@@ -584,13 +514,10 @@ $(document).ready(function () {
           coveredManual++;
         }
       });
-
       const uncovered =
         totalBuildings - (coveredManual + coveredSuggested + blueCount);
-
       // بناء صفوف البيانات
       const rows = [];
-
       // الأبراج المرسومة
       towerPoints.forEach((f, index) => {
         const coords = f.geometry.coordinates;
@@ -780,11 +707,9 @@ $(document).ready(function () {
     </tbody>
   </table>
 `;
-
     document.getElementById("dataContent").innerHTML = content;
     document.getElementById("dataDisplay").style.display = "block";
   }
-
   ///************************************************inputSelected************************************************************** */
   let governorateLayers = {
     cairo: cairoLayer,
@@ -870,12 +795,9 @@ $(document).ready(function () {
   });
 
   //////////////////////////////id="closeDisplayBtn"/////////////////////////////////////////////////////////
-
   document
     .getElementById("closeDisplayBtn")
     .addEventListener("click", function () {
       document.getElementById("dataDisplay").style.display = "none";
     });
-
-  ///////////endddd////////////////
 });
