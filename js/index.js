@@ -56,7 +56,7 @@ $(document).ready(function () {
   // tileLayer.wms <--///
 
   let wms = L.tileLayer
-    .wms("http://10.100.100.106:8051/geoserver/gov/wms", {
+    .wms("https://a7medmo7med1971.github.io/XYZ_Tiels_Egypt.Gov/{z}/{x}/{y}.png", {
       layers: "gov", // GeoServer ← غيّرها لاسم الطبقة الموجود في
       format: "image/png",
       transparent: true,
